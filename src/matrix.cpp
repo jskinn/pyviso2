@@ -21,6 +21,9 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 
 #include "matrix.h"
 #include <math.h>
+#include <algorithm>
+
+using namespace std;
 
 #define SWAP(a,b) {temp=a;a=b;b=temp;}
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
@@ -429,7 +432,7 @@ bool Matrix::solve (const Matrix &M, FLOAT eps) {
   int32_t* ipiv  = new int32_t[m];
   
   // loop variables
-  int32_t i, icol=0, irow=0, j, k, l, ll;
+  int32_t i, icol, irow, j, k, l, ll;
   FLOAT big, dum, pivinv, temp;
   
   // initialize pivots to zero
@@ -515,7 +518,7 @@ bool Matrix::lu(int32_t *idx, FLOAT &d, FLOAT eps) {
     exit(0);
   }
   
-  int32_t i,imax=0,j,k;
+  int32_t i,imax,j,k;
   FLOAT   big,dum,sum,temp;
   FLOAT* vv = (FLOAT*)malloc(n*sizeof(FLOAT)); // vv stores the implicit scaling of each row.
   d = 1.0;

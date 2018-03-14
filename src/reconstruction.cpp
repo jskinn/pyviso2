@@ -21,7 +21,6 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 
 #include "reconstruction.h"
 #include <fstream>
-#include <cassert>
 
 using namespace std;
 
@@ -84,7 +83,7 @@ void Reconstruction::update (vector<Matcher::p_match> p_matched,Matrix Tr,int32_
   int32_t *track_idx = new int32_t[track_idx_max+1];
   for (int32_t i=0; i<=track_idx_max; i++)
     track_idx[i] = -1;
-  for (size_t i=0; i<tracks.size(); i++)
+  for (int32_t i=0; i<tracks.size(); i++)
     track_idx[tracks[i].last_idx] = i;
   
   // associate matches to tracks
@@ -129,22 +128,17 @@ void Reconstruction::update (vector<Matcher::p_match> p_matched,Matrix Tr,int32_
     } else {
       
       // add to 3d reconstruction
-      if (t->pixels.size()>=(size_t)min_track_length) {
+      if (t->pixels.size()>=min_track_length) {
         
         // 3d point
         point3d p;
         
         // try to init point from first and last track frame
         if (initPoint(*t,p)) {
-          if (pointType(*t,p)>=point_type) {
-            if (refinePoint(*t,p)) {
-	      t->valid = 1;
-	      t->pt = p;
-	      complete_tracks.push_back(*t);
+          if (pointType(*t,p)>=point_type)
+            if (refinePoint(*t,p))
               if(pointDistance(*t,p)<max_dist && rayAngle(*t,p)>min_angle)
                 points.push_back(p);
-	    }
-	  }
         }
       }
     }
@@ -206,9 +200,9 @@ bool Reconstruction::refinePoint(const track &t,point3d &p) {
   delete p_observe;
   delete p_predict;
   
-  if (result==CONVERGED) {
+  if (result==CONVERGED)
     return true;
-  }  else
+  else
     return false;
 }
 
@@ -270,8 +264,6 @@ Reconstruction::result Reconstruction::updatePoint(const track &t,point3d &p,con
   
   // number of frames
   int32_t num_frames = t.pixels.size();
-  // we need to be sure that tracks are continuous
-  assert(num_frames == (t.last_frame - t.first_frame));
   
   // extract observations
   computeObservations(t.pixels);
@@ -315,7 +307,7 @@ Reconstruction::result Reconstruction::updatePoint(const track &t,point3d &p,con
 }
 
 void Reconstruction::computeObservations(const vector<point2d> &pixels) {
-  for (size_t i=0; i<pixels.size(); i++) {
+  for (int32_t i=0; i<pixels.size(); i++) {
     p_observe[i*2+0] = pixels[i].u;
     p_observe[i*2+1] = pixels[i].v;
   }

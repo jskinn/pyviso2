@@ -66,7 +66,7 @@ public:
   VisualOdometry (parameters param);
   
   // deconstructor
-  virtual ~VisualOdometry ();
+  ~VisualOdometry ();
 
   // call this function instead of the specialized ones, if you already have
   // feature matches, and simply want to compute visual odometry from them, without

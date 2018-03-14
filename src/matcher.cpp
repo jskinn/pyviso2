@@ -53,7 +53,7 @@ Matcher::Matcher(parameters param) : param(param) {
   I2c_du_full = 0; I2c_dv_full = 0;
 
   // margin needed to compute descriptor + sobel responses
-  margin = 5+1;
+  margin = 8+1;
   
   // adjust match radius on half resolution
   if (param.half_resolution)
@@ -1206,7 +1206,7 @@ void Matcher::matching (int32_t *m1p,int32_t *m2p,int32_t *m1c,int32_t *m2c,
 }
 
 void Matcher::removeOutliers (vector<Matcher::p_match> &p_matched,int32_t method) {
-  
+
   // do we have enough points for outlier removal?
   if (p_matched.size()<=3)
     return;
