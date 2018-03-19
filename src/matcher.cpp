@@ -266,8 +266,8 @@ void Matcher::bucketFeatures(int32_t max_features,float bucket_width,float bucke
   p_matched_2.clear();
   for (int32_t i=0; i<bucket_cols*bucket_rows; i++) {
     
-    // shuffle bucket indices randomly
-    std::random_shuffle(buckets[i].begin(),buckets[i].end());
+    // shuffle bucket indices pseudorandomly (deterministically)
+    std::shuffle(buckets[i].begin(),buckets[i].end(), std::default_random_engine(0));
     
     // add up to max_features features from this bucket to p_matched
     int32_t k=0;

@@ -16,5 +16,5 @@ setup(name="pyviso2",
                                       "triangle.cpp","viso.cpp","viso_stereo.cpp", "viso2.i"],
                              language="c++",
                              swig_opts=['-c++','-threads'],
-                             extra_compile_args=['-msse3'],
+                             extra_compile_args=['-msse3', '-std=c++11'],
                              include_dirs=[numpy.get_include()])])
