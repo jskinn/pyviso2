@@ -1212,6 +1212,19 @@ void Matcher::removeOutliers (vector<Matcher::p_match> &p_matched,int32_t method
   if (p_matched.size()<=3)
     return;
 
+  // Be really sure we have at least 4 unique points for delaunay triangulation (prevents segfault)
+  int16_t unique_points = 0;
+  for (vector<Matcher::p_match>::iterator it=p_matched.begin(); unique_points <= 3 && it!=p_matched.end(); it++) {
+    for (vector<Matcher::p_match>::iterator jt=p_matched.begin(); unique_points <= 3 && jt!=it; jt++) {
+      if (it->u1c != jt->u1c || it->v1c != jt->v1c) {
+        ++unique_points;
+      }
+    }
+  }
+  if (unique_points <= 3) {
+    return;
+  }
+
   // input/output structure for triangulation
   struct triangulateio in, out;
 
