@@ -2,6 +2,7 @@
 
 %{
 #define SWIG_FILE_WITH_INIT
+#include "viso_mono.h"
 #include "viso_stereo.h"
 #include "reconstruction.h"
 %}
@@ -22,6 +23,7 @@
 // rename the crazy nested class parameter scheme
 %rename (VO_parameters) VisualOdometry::parameters;
 %rename (Matcher_parameters) Matcher::parameters;
+%rename (Mono_parameters) VisualOdometryMono::parameters;
 %rename (Stereo_parameters) VisualOdometryStereo::parameters;
 
 %rename (p_match) Matcher::p_match;
@@ -40,10 +42,12 @@ typedef int int32_t;
 
 %apply (unsigned char* IN_ARRAY2, int DIM1, int DIM2 ) {(unsigned char* image1, int rows1, int cols1),
      (unsigned char* image2, int rows2, int cols2)}
+%apply (unsigned char* IN_ARRAY2, int DIM1, int DIM2 ) {(unsigned char* image, int rows, int cols) }
 %apply (double* INPLACE_ARRAY2, int DIM1, int DIM2) { (double* mat, int rows, int cols) } 
 
 // what interfaces to SWIG?
 %include "viso.h"
+%include "viso_mono.h"
 %include "viso_stereo.h"
 %include "matrix.h"
 %include "matcher.h"
@@ -53,6 +57,15 @@ namespace std {
   %template(MatchVector) vector<Matcher::p_match>;
   %template(Point3dVector) vector<Reconstruction::point3d>;
  }
+
+// apply the numpy typemap to enable a more comforable call with 2D images
+%extend VisualOdometryMono {
+  bool process_frame(unsigned char* image, int rows, int cols, bool replace=false)
+  {
+    int dims[] = {cols, rows, cols};
+    return $self->process(image, dims, replace);
+  }
+}
 
 // apply the numpy typemap to enable a more comforable call with 2D images
 %extend VisualOdometryStereo {
