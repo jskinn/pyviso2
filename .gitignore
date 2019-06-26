@@ -3,3 +3,5 @@ viso2_wrap.cpp
 *.so
 *.pyc
 src/build*
+src/dist*
+src/MANIFEST
