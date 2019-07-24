@@ -2,9 +2,9 @@
 
 %{
 #define SWIG_FILE_WITH_INIT
-#include "viso_mono.h"
-#include "viso_stereo.h"
-#include "reconstruction.h"
+#include "src/viso_mono.h"
+#include "src/viso_stereo.h"
+#include "src/reconstruction.h"
 %}
 
 // enable the flattened nested class structure
@@ -46,12 +46,12 @@ typedef int int32_t;
 %apply (double* INPLACE_ARRAY2, int DIM1, int DIM2) { (double* mat, int rows, int cols) } 
 
 // what interfaces to SWIG?
-%include "viso.h"
-%include "viso_mono.h"
-%include "viso_stereo.h"
-%include "matrix.h"
-%include "matcher.h"
-%include "reconstruction.h"
+%include "src/viso.h"
+%include "src/viso_mono.h"
+%include "src/viso_stereo.h"
+%include "src/matrix.h"
+%include "src/matcher.h"
+%include "src/reconstruction.h"
 
 namespace std {
   %template(MatchVector) vector<Matcher::p_match>;
