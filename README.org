@@ -1,6 +1,9 @@
 * Overview
 
 =pyviso2= is a thin SWIG Python wrapping of the visual odometry library, [[http://www.cvlibs.net/software/libviso/][libviso2]].
+Uses the latest version of libviso2 (updated 2017-06-12 according to their changelog), with the following changes:
+- change matcher.cpp to use `std::shuffle` rather than `std::random_shuffle` (which is deprecated)
+- Add an extra check to `Matcher::removeOutliers` to be really sure there are at least 3 points before delaunay triangulation. This prevents a segfault in triangle.cpp.
 
 * Status
 
@@ -14,7 +17,7 @@ Currently, the stereo demo included with libviso2 has been replicated in Python.
 
 Download the repository and enter the =src= directory.
 
-  $ git clone http://github.com/jlowenz/pyviso2.git
+  $ git clone http://github.com/jskinn/pyviso2.git
   
   $ cd src 
   

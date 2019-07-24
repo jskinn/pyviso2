@@ -19,7 +19,6 @@ libviso2; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 
-#include <random>
 #include "matcher.h"
 #include "triangle.h"
 #include "filter.h"
@@ -31,7 +30,7 @@ using namespace std;
 //////////////////////
 
 // constructor (with default parameters)
-Matcher::Matcher(parameters param) : param(param) {
+Matcher::Matcher(parameters param) : param(param), random_generator(std::random_device{} ()) {
 
   // init match ring buffer to zero
   m1p1 = 0; n1p1 = 0;
@@ -268,7 +267,7 @@ void Matcher::bucketFeatures(int32_t max_features,float bucket_width,float bucke
   for (int32_t i=0; i<bucket_cols*bucket_rows; i++) {
     
     // shuffle bucket indices pseudorandomly (deterministically)
-    std::shuffle(buckets[i].begin(),buckets[i].end(), std::default_random_engine(0));
+    std::shuffle(buckets[i].begin(),buckets[i].end(), random_generator);
     
     // add up to max_features features from this bucket to p_matched
     int32_t k=0;

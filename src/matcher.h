@@ -30,7 +30,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #include <emmintrin.h>
 #include <algorithm>
 #include <vector>
-
+#include <random>
 #include "matrix.h"
 
 class Matcher {
@@ -242,6 +242,7 @@ private:
   std::vector<Matcher::p_match> p_matched_1;
   std::vector<Matcher::p_match> p_matched_2;
   std::vector<Matcher::range>   ranges;
+  std::mt19937 random_generator;
 };
 
 #endif
