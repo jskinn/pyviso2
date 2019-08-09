@@ -1,2 +1,4 @@
-include *.h
+include src/*.h
+include src/*.cpp
 include *.i
+include pyfragments.swg

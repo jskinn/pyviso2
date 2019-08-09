@@ -1,17 +1,15 @@
-from distutils.core import setup, Extension
-from distutils.sysconfig import get_config_vars
+from setuptools import setup, Extension
 import numpy
-import os
 
-(opt,) = get_config_vars('OPT')
-os.environ['OPT'] = " ".join(
-    flag for flag in opt.split() if flag != '-Wstrict-prototypes'
-)
 
 setup(
     name="pyviso2",
     version="0.1.0",
     py_modules=["viso2"],
+    url='https://github.com/jskinn/pyviso2',
+    maintainer='John Skinner',
+    maintainer_email='jskinn7@gmail.com',
+    zip_safe=False,
     ext_modules=[
         Extension(
 	    "_viso2",
