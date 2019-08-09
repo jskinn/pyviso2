@@ -7,11 +7,13 @@ Uses the latest version of libviso2 (updated 2017-06-12 according to their chang
 
 # Status
 
-Currently, the stereo demo included with libviso2 has been replicated in Python. The nested parameter classes used to configure the VisualOdometry* classes have been flattened and renamed in order to work with Python (see [SWIG nested classes](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nested_classes)). In addition, a few overloaded methods have been renamed in order to work properly:
+Both VisualOdometryMono and VisualOdometryStereo have been wrapped with swig, and are available from Python. The nested parameter classes used to configure the VisualOdometry* classes have been flattened and renamed in order to work with Python (see [SWIG nested classes](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nested_classes)). In addition, a few overloaded methods have been renamed in order to work properly:
 
 - `Matrix::eye()` member function has been renamed to `Matrix::identity()` to allow the static member function `Matrix_eye(size)` to be created.
 - `Matrix::inv()` member function has been renamed to `Matrix::setInverse()` to allow the static member function `Matrix_inv(Matrix)` to be created.
-- A `VisualOdometryStereo::process_frame(img1,img2)` has been added to support [NumPy](http://www.numpy.org) grayscale images.
+- `Matrix::toNumpy(array)` member function has been added to convert matrices to [NumPy](http://www.numpy.org).
+- A `VisualOdometryMono::process_frame(img1)` has been added that supports NumPy grayscale images (single channel uint8).
+- A `VisualOdometryStereo::process_frame(img1, img2)` has been added that supports NumPy grayscale images (single channel uint8)
 
 # Getting Started
 
@@ -23,6 +25,7 @@ Build a source distribution:
 - You can then install this distribution with `pip install <place you cloned>/pyviso2/dist/pyviso2-0.1.0.tar.gz`
 
 Run the demo (either after building in-place, or installing the distribution): `python demo.py <path to synchronized/rectified image directory>`
+
 
 # Requirements
 
