@@ -1,0 +1,8 @@
+name: pyviso2
+channels:
+  - defaults
+dependencies:
+  - python
+  - swig
+  - numpy
+
