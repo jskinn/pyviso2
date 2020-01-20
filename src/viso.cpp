@@ -25,14 +25,13 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 
 using namespace std;
 
-VisualOdometry::VisualOdometry (parameters param) : param(param), random_generator(std::random_device{} ()) {
+VisualOdometry::VisualOdometry (parameters param) : random_generator(std::random_device{} ()), param(param) {
   J         = 0;
   p_observe = 0;
   p_predict = 0;
   matcher   = new Matcher(param.match);
   Tr_delta  = Matrix::eye(4);
   Tr_valid  = false;
-  srand(0);
 }
 
 VisualOdometry::~VisualOdometry () {
@@ -84,21 +83,34 @@ Matrix VisualOdometry::transformationVectorToMatrix (vector<double> tr) {
 }
 
 vector<int32_t> VisualOdometry::getRandomSample(int32_t N,int32_t num) {
-
-  // init sample and totalset
+  if (num > N) { // Cannot draw more than N samples
+    num = N;
+  }
   vector<int32_t> sample;
-  vector<int32_t> totalset;
-  
-  // create vector containing all indices
-  for (int32_t i=0; i<N; i++)
-    totalset.push_back(i);
 
-  // add num indices to current sample
-  sample.clear();
-  for (int32_t i=0; i<num; i++) {
-    int32_t j = rand()%totalset.size();
-    sample.push_back(totalset[j]);
-    totalset.erase(totalset.begin()+j);
+  if (N > 0 && num > 0) {
+    if (num < N / 2) {
+      // There are many fewer samples than the total number, shuffling the whole set is inefficient. Instead, draw until uniqueness
+      sample.reserve(num);
+      std::uniform_int_distribution<int32_t> dist(0, N - 1);
+      while (sample.size() < (unsigned) num) {
+        int32_t i = dist(random_generator);
+        if (std::find(sample.begin(), sample.end(), i) == sample.end()) {
+          sample.push_back(i);
+        }
+      }
+    } else {
+      // We require lots of samples, shuffle all the indexes
+      sample.reserve(N);
+
+      // create vector containing all indices, and shuffle it
+      for (int32_t i=0; i<N; i++)
+        sample.push_back(i);
+      std::shuffle(sample.begin(), sample.end(), random_generator);
+
+      // Remove all but the desired number of samples
+      sample.resize(num);
+    }
   }
   
   // return sample
