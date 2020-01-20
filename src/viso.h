@@ -22,6 +22,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #ifndef VISO_H
 #define VISO_H
 
+#include <random>
 #include "matrix.h"
 #include "matcher.h"
 
@@ -126,14 +127,15 @@ protected:
   // get random and unique sample of num numbers from 1:N
   std::vector<int32_t> getRandomSample (int32_t N,int32_t num);
 
-  Matrix                         Tr_delta;   // transformation (previous -> current frame)  
-  bool                           Tr_valid;   // motion estimate exists?
-  Matcher                       *matcher;    // feature matcher
-  std::vector<int32_t>           inliers;    // inlier set
-  double                        *J;          // jacobian
-  double                        *p_observe;  // observed 2d points
-  double                        *p_predict;  // predicted 2d points
-  std::vector<Matcher::p_match>  p_matched;  // feature point matches
+  std::mt19937                   random_generator;  // Random number generator state
+  Matrix                         Tr_delta;          // transformation (previous -> current frame)  
+  bool                           Tr_valid;          // motion estimate exists?
+  Matcher                       *matcher;           // feature matcher
+  std::vector<int32_t>           inliers;           // inlier set
+  double                        *J;                 // jacobian
+  double                        *p_observe;         // observed 2d points
+  double                        *p_predict;         // predicted 2d points
+  std::vector<Matcher::p_match>  p_matched;         // feature point matches
   
 private:
   

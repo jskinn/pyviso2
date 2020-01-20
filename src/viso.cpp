@@ -25,7 +25,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 
 using namespace std;
 
-VisualOdometry::VisualOdometry (parameters param) : param(param) {
+VisualOdometry::VisualOdometry (parameters param) : param(param), random_generator(std::random_device{} ()) {
   J         = 0;
   p_observe = 0;
   p_predict = 0;

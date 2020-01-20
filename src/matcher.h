@@ -124,7 +124,7 @@ public:
 
   // feature bucketing: keeps only max_features per bucket, where the domain
   // is split into buckets of size (bucket_width,bucket_height)
-  void bucketFeatures(int32_t max_features,float bucket_width,float bucket_height);
+  void bucketFeatures(int32_t max_features,float bucket_width,float bucket_height, std::mt19937& random_generator);
 
   // return vector with matched feature points and indices
   std::vector<Matcher::p_match> getMatches() { return p_matched_2; }
@@ -242,7 +242,6 @@ private:
   std::vector<Matcher::p_match> p_matched_1;
   std::vector<Matcher::p_match> p_matched_2;
   std::vector<Matcher::range>   ranges;
-  std::mt19937 random_generator;
 };
 
 #endif

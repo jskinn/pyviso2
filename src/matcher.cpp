@@ -30,7 +30,7 @@ using namespace std;
 //////////////////////
 
 // constructor (with default parameters)
-Matcher::Matcher(parameters param) : param(param), random_generator(std::random_device{} ()) {
+Matcher::Matcher(parameters param) : param(param) {
 
   // init match ring buffer to zero
   m1p1 = 0; n1p1 = 0;
@@ -240,7 +240,7 @@ void Matcher::matchFeatures(int32_t method, Matrix *Tr_delta) {
   }
 }
 
-void Matcher::bucketFeatures(int32_t max_features,float bucket_width,float bucket_height) {
+void Matcher::bucketFeatures(int32_t max_features,float bucket_width,float bucket_height, std::mt19937& random_generator) {
 
   // find max values
   float u_max = 0;
