@@ -28,3 +28,7 @@ MANIFEST
 # autogeneraged by SWIG
 viso2_wrap.cpp
 viso2.py
+
+# Dev
+.vscode
+
