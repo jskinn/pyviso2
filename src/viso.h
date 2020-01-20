@@ -69,6 +69,9 @@ public:
   // deconstructor
   ~VisualOdometry ();
 
+  // Re-seed the RNG to a fixed value
+  void seed(int32_t val);
+
   // call this function instead of the specialized ones, if you already have
   // feature matches, and simply want to compute visual odometry from them, without
   // using the internal matching functions.

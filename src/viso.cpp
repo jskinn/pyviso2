@@ -38,6 +38,10 @@ VisualOdometry::~VisualOdometry () {
   delete matcher;
 }
 
+void VisualOdometry::seed(int32_t val) {
+  random_generator.seed(val);
+}
+
 bool VisualOdometry::updateMotion () {
   
   // estimate motion

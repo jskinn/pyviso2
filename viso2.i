@@ -67,6 +67,10 @@ namespace std {
     int dims[] = {cols1, rows1, cols1};
     return $self->process(image1, dims, replace);
   }
+
+  void seed(int32_t val) {
+    $self->seed(val);
+  }
 }
 
 // apply the numpy typemap to enable a more comforable call with 2D images
@@ -75,6 +79,10 @@ namespace std {
   {
     int dims[] = {cols1, rows1, cols1};
     return $self->process(image1, image2, dims, replace);
+  }
+
+  void seed(int32_t val) {
+    $self->seed(val);
   }
 }
 
